@@ -1,0 +1,11 @@
+C:\Users\Omar\Documents\Omar\Lenguajes Formales y de programación\AnalizadorLexico\AnalizadorLexico\bin\Debug\AnalizadorLexico.exe.config
+C:\Users\Omar\Documents\Omar\Lenguajes Formales y de programación\AnalizadorLexico\AnalizadorLexico\bin\Debug\AnalizadorLexico.exe
+C:\Users\Omar\Documents\Omar\Lenguajes Formales y de programación\AnalizadorLexico\AnalizadorLexico\bin\Debug\AnalizadorLexico.pdb
+C:\Users\Omar\Documents\Omar\Lenguajes Formales y de programación\AnalizadorLexico\AnalizadorLexico\obj\Debug\AnalizadorLexico.csprojAssemblyReference.cache
+C:\Users\Omar\Documents\Omar\Lenguajes Formales y de programación\AnalizadorLexico\AnalizadorLexico\obj\Debug\AnalizadorLexico.Form1.resources
+C:\Users\Omar\Documents\Omar\Lenguajes Formales y de programación\AnalizadorLexico\AnalizadorLexico\obj\Debug\AnalizadorLexico.Properties.Resources.resources
+C:\Users\Omar\Documents\Omar\Lenguajes Formales y de programación\AnalizadorLexico\AnalizadorLexico\obj\Debug\AnalizadorLexico.csproj.GenerateResource.cache
+C:\Users\Omar\Documents\Omar\Lenguajes Formales y de programación\AnalizadorLexico\AnalizadorLexico\obj\Debug\AnalizadorLexico.csproj.CoreCompileInputs.cache
+C:\Users\Omar\Documents\Omar\Lenguajes Formales y de programación\AnalizadorLexico\AnalizadorLexico\obj\Debug\AnalizadorLexico.exe
+C:\Users\Omar\Documents\Omar\Lenguajes Formales y de programación\AnalizadorLexico\AnalizadorLexico\obj\Debug\AnalizadorLexico.pdb
+C:\Users\Omar\Documents\Omar\Lenguajes Formales y de programación\AnalizadorLexico\AnalizadorLexico\obj\Debug\AnalizadorLexico.AnalizadorWindow.resources
