@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.CodeTxt = new System.Windows.Forms.RichTextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -42,24 +41,23 @@
             this.contextMenuStrip7 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.abrirToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.guardarToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.guardarComoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.tabsControlPane = new System.Windows.Forms.TabControl();
+            this.Planificacion = new System.Windows.Forms.TreeView();
+            this.Calendar = new System.Windows.Forms.MonthCalendar();
+            this.descripcionPanel = new System.Windows.Forms.Panel();
+            this.manualDeAplicaciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.acercaDeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip3.SuspendLayout();
             this.contextMenuStrip5.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // CodeTxt
-            // 
-            this.CodeTxt.Location = new System.Drawing.Point(13, 31);
-            this.CodeTxt.Name = "CodeTxt";
-            this.CodeTxt.Size = new System.Drawing.Size(775, 407);
-            this.CodeTxt.TabIndex = 0;
-            this.CodeTxt.Text = "";
             // 
             // contextMenuStrip1
             // 
@@ -134,13 +132,14 @@
             this.acercaDeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1201, 28);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // archivoToolStripMenuItem
             // 
             this.archivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2,
             this.abrirToolStripMenuItem1,
             this.guardarToolStripMenuItem1,
             this.guardarComoToolStripMenuItem});
@@ -148,36 +147,47 @@
             this.archivoToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
             this.archivoToolStripMenuItem.Text = "Archivo";
             // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(189, 26);
+            this.toolStripMenuItem2.Text = "Nueva Pestaña";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2_Click);
+            // 
             // abrirToolStripMenuItem1
             // 
             this.abrirToolStripMenuItem1.Name = "abrirToolStripMenuItem1";
             this.abrirToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
-            this.abrirToolStripMenuItem1.Text = "Abrir";
+            this.abrirToolStripMenuItem1.Text = "Cargar Archivo";
             this.abrirToolStripMenuItem1.Click += new System.EventHandler(this.AbrirToolStripMenuItem1_Click);
             // 
             // guardarToolStripMenuItem1
             // 
             this.guardarToolStripMenuItem1.Name = "guardarToolStripMenuItem1";
-            this.guardarToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.guardarToolStripMenuItem1.Size = new System.Drawing.Size(189, 26);
             this.guardarToolStripMenuItem1.Text = "Guardar";
             this.guardarToolStripMenuItem1.Click += new System.EventHandler(this.GuardarToolStripMenuItem1_Click);
             // 
             // guardarComoToolStripMenuItem
             // 
             this.guardarComoToolStripMenuItem.Name = "guardarComoToolStripMenuItem";
-            this.guardarComoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.guardarComoToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
             this.guardarComoToolStripMenuItem.Text = "Guardar Como";
             this.guardarComoToolStripMenuItem.Click += new System.EventHandler(this.GuardarComoToolStripMenuItem_Click);
             // 
             // acercaDeToolStripMenuItem
             // 
+            this.acercaDeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.manualDeAplicaciónToolStripMenuItem,
+            this.acercaDeToolStripMenuItem1});
             this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
-            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(89, 24);
-            this.acercaDeToolStripMenuItem.Text = "Acerca de";
+            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(65, 24);
+            this.acercaDeToolStripMenuItem.Text = "Ayuda";
+            this.acercaDeToolStripMenuItem.Click += new System.EventHandler(this.AcercaDeToolStripMenuItem_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(618, 444);
+            this.button1.Location = new System.Drawing.Point(548, 519);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 29);
             this.button1.TabIndex = 9;
@@ -186,22 +196,67 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(713, 444);
+            this.button2.Location = new System.Drawing.Point(641, 519);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 29);
+            this.button2.Size = new System.Drawing.Size(89, 29);
             this.button2.TabIndex = 10;
             this.button2.Text = "Cancelar";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
+            // 
+            // tabsControlPane
+            // 
+            this.tabsControlPane.Location = new System.Drawing.Point(12, 31);
+            this.tabsControlPane.Name = "tabsControlPane";
+            this.tabsControlPane.SelectedIndex = 0;
+            this.tabsControlPane.Size = new System.Drawing.Size(681, 407);
+            this.tabsControlPane.TabIndex = 11;
+            this.tabsControlPane.SelectedIndexChanged += new System.EventHandler(this.TabsControlPane_SelectedIndexChanged);
+            // 
+            // Planificacion
+            // 
+            this.Planificacion.Location = new System.Drawing.Point(1014, 52);
+            this.Planificacion.Name = "Planificacion";
+            this.Planificacion.Size = new System.Drawing.Size(166, 202);
+            this.Planificacion.TabIndex = 12;
+            // 
+            // Calendar
+            // 
+            this.Calendar.Location = new System.Drawing.Point(714, 47);
+            this.Calendar.Name = "Calendar";
+            this.Calendar.TabIndex = 13;
+            // 
+            // descripcionPanel
+            // 
+            this.descripcionPanel.Location = new System.Drawing.Point(726, 309);
+            this.descripcionPanel.Name = "descripcionPanel";
+            this.descripcionPanel.Size = new System.Drawing.Size(454, 199);
+            this.descripcionPanel.TabIndex = 14;
+            // 
+            // manualDeAplicaciónToolStripMenuItem
+            // 
+            this.manualDeAplicaciónToolStripMenuItem.Name = "manualDeAplicaciónToolStripMenuItem";
+            this.manualDeAplicaciónToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
+            this.manualDeAplicaciónToolStripMenuItem.Text = "Manual de aplicación";
+            // 
+            // acercaDeToolStripMenuItem1
+            // 
+            this.acercaDeToolStripMenuItem1.Name = "acercaDeToolStripMenuItem1";
+            this.acercaDeToolStripMenuItem1.Size = new System.Drawing.Size(234, 26);
+            this.acercaDeToolStripMenuItem1.Text = "Acerca De";
             // 
             // analizador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 477);
+            this.ClientSize = new System.Drawing.Size(1201, 560);
+            this.Controls.Add(this.descripcionPanel);
+            this.Controls.Add(this.Calendar);
+            this.Controls.Add(this.Planificacion);
+            this.Controls.Add(this.tabsControlPane);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.CodeTxt);
             this.Name = "analizador";
             this.Text = "(Sin titulo)";
             this.contextMenuStrip3.ResumeLayout(false);
@@ -214,8 +269,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.RichTextBox CodeTxt;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip3;
@@ -234,6 +287,13 @@
         private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TabControl tabsControlPane;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.TreeView Planificacion;
+        private System.Windows.Forms.MonthCalendar Calendar;
+        private System.Windows.Forms.Panel descripcionPanel;
+        private System.Windows.Forms.ToolStripMenuItem manualDeAplicaciónToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem1;
     }
 }
 
