@@ -11,8 +11,10 @@ namespace AnalizadorLexico.Helper
     {
 
         List<MatrixToken> matrix;
+        public static List<Error> errores;
         int state;
         String auxLex;
+        public static Boolean sintaxisError;
         CustomFileGenerator file = new CustomFileGenerator();
 
         private void addToken(TokenModel.TYPE tipo)
@@ -23,10 +25,17 @@ namespace AnalizadorLexico.Helper
 
         }
 
+        private void addError(String descripcion, char lexema)
+        {
+            errores.Add(new Error(errores.Count, descripcion, lexema));
+            auxLex = "";
+            sintaxisError = true;
+        }
+
         public List<MatrixToken> analizar(String entrance)
         {
-            entrance += "#";
             matrix = new List<MatrixToken>();
+            errores = new List<Error>();
             state = 0;
             auxLex = "";
             Char c;
@@ -74,6 +83,14 @@ namespace AnalizadorLexico.Helper
                             auxLex += c;
                             addToken(TokenModel.TYPE.LLAVE_DER);
                         }
+                        else
+                        {
+                            if (!Char.IsWhiteSpace(c))
+                            {
+                                addError("CARACTER DESCONOCIDO", c);
+                            }
+                            
+                        }
                         
                     break;
                     case 1:
@@ -106,6 +123,13 @@ namespace AnalizadorLexico.Helper
                                 }
 
                             }
+                        else
+                        {
+                            if (!Char.IsWhiteSpace(c))
+                            {
+                                addError("CARACTER DESCONOCIDO", c);
+                            }
+                        }
 
                         break;
                     case 2:
@@ -155,6 +179,13 @@ namespace AnalizadorLexico.Helper
                         {
                             state = 0;
                         }
+                        else
+                        {
+                            if (!Char.IsWhiteSpace(c) || !c.Equals('#'))
+                            {
+                                addError("CARACTER DESCONOCIDO", c);
+                            }
+                        }
                         break;
 
                     default:
@@ -164,8 +195,7 @@ namespace AnalizadorLexico.Helper
 
 
             }
-            file.generateHTMLTokensFile(matrix, "D:\\Users\\Omar\\Desktop\\tokens.html");
-            imprimirTokens();
+            
             return matrix;
         }
 

@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace AnalizadorLexico
 {
     public partial class analizador : Form
     {
-        String Op_filename, Sa_filename;
+        String Op_filename, Sa_filename,htmlFile_route;
         public static String currentFile;
         OpenFileDialog openFile;
         SaveFileDialog saveFile;
@@ -25,9 +26,14 @@ namespace AnalizadorLexico
         RichTextBox CodeTxt = null;
         Analizador analisis;
         List<Planificacion> plans;
+        CustomFileGenerator file;
+        List<MatrixToken> tokens;
 
         private void crearPestaña()
         {
+            if (!button1.Enabled) {
+                button1.Enabled = true;
+            }
             TabPage tab = new TabPage()
             {
                 Text = "Pestaña " + page_count,
@@ -85,8 +91,32 @@ namespace AnalizadorLexico
         {
             GenerarPlanificador generate = new GenerarPlanificador();
             analisis = new Analizador();
-            plans = generate.generar(analisis. analizar(getTextBox().Text));
-            generateTreeView();
+            tokens = new List<MatrixToken>();
+            file = new CustomFileGenerator();
+            tokens = analisis.analizar(getTextBox().Text);
+            if (getTextBox()!=null)
+            {
+                if (!Analizador.sintaxisError)
+                {
+                    htmlFile_route = "C:\\Users\\Omar\\Documents\\Omar\\Lenguajes Formales y de programación\\AnalizadorLexico" +
+                        "\\AnalizadorLexico\\Helper\\tokens.html";
+                    file.generateHTMLTokensFile(tokens, htmlFile_route);
+                    Process.Start(htmlFile_route);
+                    analisis.imprimirTokens();
+                  //  plans = generate.generar(tokens);
+                   // generateTreeView();
+
+                }
+                else
+                {
+                    htmlFile_route = "D:\\Users\\Omar\\Desktop\\errores.html";
+                    file.generateErrorsHTMLFile(Analizador.errores, htmlFile_route);
+                    MessageBox.Show("Ocurrió un error al leer el código", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Analizador.sintaxisError = false;
+                }
+                
+            }
+            
 
         }
 
@@ -179,7 +209,11 @@ namespace AnalizadorLexico
                 tabsControlPane.SelectedTab.Text = Op_filename;
                 openFile.Dispose();
             }
-            
+            if (!button1.Enabled)
+            {
+                button1.Enabled = true;
+            }
+
         }
 
         public RichTextBox getTextBox()

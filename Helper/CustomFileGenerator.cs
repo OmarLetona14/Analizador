@@ -51,14 +51,19 @@ namespace AnalizadorLexico.Helper
 
         public void generateErrorsHTMLFile(List<Error> errores, String filename)
         {
+
             String init;
             try
             {
                 sw = new StreamWriter(filename);
                 init = "<html>" +
-                    "<head>" + "</head>" +
+                    "<head>"
+                    + "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/bootstrap.min.css\" >"
+                    + "<script type=\"text/javascript\" src=\"js/bootstrap.min.js\"></script>"
+                    + "<script type=\"text/javascript\" src=\"js/jquery-3.4.1.min.js\"></script>"
+                    + "</head>" +
                     "<body>" +
-                        "<table class=\"egt\" style= \"text - align:center;\" >" +
+                        "<table class=\"table table-dark\" style= \"text - align:center;\" >" +
                         "<tr>" +
                             "<th> Numero de error </th>" +
                             "<th> Error </th>" +
@@ -85,7 +90,6 @@ namespace AnalizadorLexico.Helper
             sw.Close();
             
             
-
-        }
+                    }
     }
 }

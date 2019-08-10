@@ -25,7 +25,8 @@ namespace AnalizadorLexico.Model
             NUMERO,
             COMILLAS,
             IDENTIFICADOR,
-            CADENA
+            CADENA,
+            CARACTER_DESCONOCIDO
         }
 
         private String valor;
