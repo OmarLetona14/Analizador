@@ -10,13 +10,22 @@ namespace AnalizadorLexico.Model
     {
         public enum TYPE
         {
+            DOS_PUNTOS,
+            LLAVE_DER,
+            LLAVE_IZQ,
+            PARENTESIS_DER,
+            PARENTESIS_IZQ,
+            MAYOR_QUE,
+            MENOR_QUE,
+            COMA,
+            PUNTO_Y_COMA,
             CORCHETE_DER,
             CORCHETE_IZQ,
-            PALABRA_RESERVADA_APERTURA,
-            PALABRA_RESERVADA_CIERRE,
+            PALABRA_RESERVADA,
             NUMERO,
             COMILLAS,
-            IDENTIFICADOR
+            IDENTIFICADOR,
+            CADENA
         }
 
         private String valor;
@@ -37,21 +46,38 @@ namespace AnalizadorLexico.Model
         {
             switch (tipo)
             {
-
+                case TYPE.DOS_PUNTOS:
+                    return "DOS_PUNTOS";
+                case TYPE.COMA:
+                    return "COMA";
+                case TYPE.LLAVE_DER:
+                    return "LLAVE_DER";
+                case TYPE.LLAVE_IZQ:
+                    return "LLAVE_IZQ";
+                case TYPE.MAYOR_QUE:
+                    return "MAYOR_QUE";
+                case TYPE.MENOR_QUE:
+                    return "MENOR_QUE";
+                case TYPE.PALABRA_RESERVADA:
+                    return "PALABRA_RESERVADA";
+                case TYPE.PUNTO_Y_COMA:
+                    return "PUNTO_Y_COMA";
+                case TYPE.PARENTESIS_DER:
+                    return "PARENTESIS_DER";
+                case TYPE.PARENTESIS_IZQ:
+                    return "PARENTESIS_IZQ";
                 case TYPE.NUMERO:
                     return "NUMERO";
                 case TYPE.CORCHETE_DER:
-                    return "CORCHETE DERECHO";
+                    return "CORCHETE_DER";
                 case TYPE.CORCHETE_IZQ:
-                    return "CORCHETE IZQUIERDO";
+                    return "CORCHETE_IZQ";
                 case TYPE.IDENTIFICADOR:
                     return "IDENTIFICADOR";
-                case TYPE.PALABRA_RESERVADA_APERTURA:
-                    return "PALABRA RESERVADA DE APERTURA";
-                case TYPE.PALABRA_RESERVADA_CIERRE:
-                    return "PALABRA RESERVADA DE CIERRE";
                 case TYPE.COMILLAS:
                     return "COMILLAS";
+                case TYPE.CADENA:
+                    return "CADENA";
                 default:
                     return "CARACTER DESCONOCIDO";
             }

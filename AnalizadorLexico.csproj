@@ -52,11 +52,17 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\Analizador.cs" />
     <Compile Include="Helper\CustomFileGenerator.cs" />
     <Compile Include="Helper\CustomFileReader.cs" />
+    <Compile Include="Helper\GenerarPlanificador.cs" />
+    <Compile Include="Model\Day.cs" />
+    <Compile Include="Model\Error.cs" />
     <Compile Include="Model\MatrixToken.cs" />
+    <Compile Include="Model\Mouth.cs" />
     <Compile Include="Model\Planificacion.cs" />
     <Compile Include="Model\TokenModel.cs" />
+    <Compile Include="Model\Year.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

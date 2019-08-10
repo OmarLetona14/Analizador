@@ -16,19 +16,17 @@ namespace AnalizadorLexico
 {
     public partial class analizador : Form
     {
-        int state;
-        String Op_filename, Sa_filename, entrada, auxLex;
+        String Op_filename, Sa_filename;
         public static String currentFile;
         OpenFileDialog openFile;
-        RichTextBox codeTxt;
-        Boolean identificador, sintaxisError, savedOnce;
         SaveFileDialog saveFile;
         CustomFileReader reader;
-        private int page_count = 2;
+        private int page_count = 1;
         RichTextBox CodeTxt = null;
-        ArrayList matrix;
+        Analizador analisis;
+        List<Planificacion> plans;
 
-        private void crearPestaña(String titulo)
+        private void crearPestaña()
         {
             TabPage tab = new TabPage()
             {
@@ -43,17 +41,12 @@ namespace AnalizadorLexico
             CodeTxt.Name = "CodeTxt";
             tab.Controls.Add(CodeTxt);
             tabsControlPane.Controls.Add(tab);
-            page_count += 1;
+            page_count += 1; 
         }
 
         private void ToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            crearPestaña("");
-        }
-
-        private void AddPage(TabPage tab, string v)
-        {
-            
+            crearPestaña();
         }
 
         private void AcercaDeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -88,10 +81,46 @@ namespace AnalizadorLexico
             this.Dispose();
         }
 
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            GenerarPlanificador generate = new GenerarPlanificador();
+            analisis = new Analizador();
+            plans = generate.generar(analisis. analizar(getTextBox().Text));
+            generateTreeView();
+
+        }
+
+        public void generateTreeView()
+        {
+            foreach (Planificacion plan in plans)
+            {
+                PlanificacionTree.Nodes[0].Text = plan.Nombre;
+                for (int y = 0; y <= plan.Years.Count; y++)
+                {
+                    PlanificacionTree.Nodes[1].Text = Convert.ToString(plan.Years[y].YearVariable);
+                    for (int m = 0; m <= plan.Years[y].Mouths.Count; m++)
+                    {
+                        PlanificacionTree.Nodes[2].Text = Convert.ToString(plan.Years[y].Mouths[m].MouthVariable);
+                        for (int d = 0; d <= plan.Years[y].Mouths[m].Days.Count;d++)
+                        {
+                            PlanificacionTree.Nodes[3].Text = Convert.ToString(plan.Years[y].Mouths[m].Days[d].DayVariable);
+                        }
+                    }
+                }
+                
+            }
+        }
+
+
         private void GuardarToolStripMenuItem1_Click(object sender, EventArgs e)
         {
              guardarComo();
             
+        }
+
+        private void PlanificacionTree_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
         }
 
         public void guardarComo()
@@ -107,28 +136,7 @@ namespace AnalizadorLexico
             saveFile.Dispose();
         }
 
-        public ArrayList Analizar(String entrance)
-        {
-            entrance += "#";
-            matrix = new ArrayList();
-            state = 0;
-            auxLex = "";
-            Char c;
-            for (int i = 0; i<=entrance.Length;i++)
-            {
-                c = entrance.ElementAt(i);
-                switch (state)
-                {
-
-
-
-                }
-
-
-            }
-
-            return matrix;
-        }
+       
 
         
 
@@ -139,17 +147,46 @@ namespace AnalizadorLexico
 
         private void AbrirToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            currentFile = "";
-            openFile = new OpenFileDialog();
-            openFile.Filter = "Archivos de entrada(*.ddc)|*.ddc";
-            
-            if (openFile.ShowDialog() == DialogResult.OK)
+            if (tabsControlPane.TabCount == 0) {
+                crearPestaña();
+                currentFile = "";
+                openFile = new OpenFileDialog();
+                openFile.Filter = "Archivos de entrada(*.ly)|*.ly";
+
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                    reader = new CustomFileReader();
+                    Op_filename = openFile.FileName;
+                    currentFile = Op_filename;
+                    reader.ReadArchive(Op_filename, getTextBox());
+                }
+                tabsControlPane.SelectedTab.Text = Op_filename;
+                openFile.Dispose();
+            }
+            else
             {
-                reader = new CustomFileReader();
-                Op_filename = openFile.FileName;
-                currentFile = Op_filename;
-                RichTextBox txtBox = null;
-              
+                currentFile = "";
+                openFile = new OpenFileDialog();
+                openFile.Filter = "Archivos de entrada(*.ly)|*.ly";
+
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                    reader = new CustomFileReader();
+                    Op_filename = openFile.FileName;
+                    currentFile = Op_filename;
+                    reader.ReadArchive(Op_filename, getTextBox());
+                }
+                tabsControlPane.SelectedTab.Text = Op_filename;
+                openFile.Dispose();
+            }
+            
+        }
+
+        public RichTextBox getTextBox()
+        {
+            RichTextBox txtBox = null;
+            if (tabsControlPane.TabCount!=0)
+            {
                 foreach (Control control in tabsControlPane.SelectedTab.Controls)
                 {
                     if (control.Name == "CodeTxt")
@@ -158,12 +195,8 @@ namespace AnalizadorLexico
                         txtBox = (RichTextBox)control;
                     }
                 }
-
-              
-                reader.ReadArchive(Op_filename, txtBox);
             }
-            tabsControlPane.SelectedTab.Text = Op_filename;
-            openFile.Dispose();
+            return txtBox;
         }
     }
 }

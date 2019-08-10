@@ -9,28 +9,38 @@ namespace AnalizadorLexico.Model
     class Planificacion
     {
         private int idPlanificacion;
+        private String nombre;
         private DateTime date;
-        private int day;
-        private int year;
-        private int mouth;
-        private String description;
-        private String urlImage;
+        private List<Year> years;
+        
 
-        public Planificacion(int idPlanificacion, DateTime date, int day, int year, int mouth, string description, string urlImage)
+        public Planificacion()
+        {}
+
+        public Planificacion(int idPlanificacion, string nombre, DateTime date, List<Year> years)
         {
             this.idPlanificacion = idPlanificacion;
+            this.nombre = nombre;
             this.date = date;
-            this.day = day;
-            this.year = year;
-            this.mouth = mouth;
-            this.description = description;
-            this.urlImage = urlImage;
+            this.years = years;
         }
 
         public int IdPlanificacion
         {
             get { return idPlanificacion; }
             set{ idPlanificacion = value; }
+        }
+
+        public String Nombre
+        {
+            get
+            {
+                return nombre;
+            }
+            set
+            {
+                nombre = value;
+            }
         }
 
         public DateTime Date
@@ -43,67 +53,20 @@ namespace AnalizadorLexico.Model
             {
                 date = value;
             }
-        } 
-        public int Day
+        }
+        
+
+        public List<Year> Years
         {
             get
             {
-                return day;
+                return years;
             }
             set
             {
-                day = value;
-            }
-
-        }
-
-        public int Mouth
-        {
-            get
-            {
-                return mouth;
-            }
-            set
-            {
-                mouth = value;
-            }
-        }
-        public int Year
-        {
-            get
-            {
-                return year;
-            }
-            set
-            {
-                year = value;
+                years = value;
             }
         }
 
-        public String Description
-        {
-            get
-            {
-                return description;
-            }
-            set
-            {
-                description = value;
-            }
-        }
-
-        public String UrlImage
-        {
-            get
-            {
-                return urlImage;
-            }
-            set
-            {
-                urlImage = value;
-            }
-        }
-
-       
     }
 }
