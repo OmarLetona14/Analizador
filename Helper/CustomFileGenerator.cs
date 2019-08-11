@@ -20,18 +20,25 @@ namespace AnalizadorLexico.Helper
             {
                 sw = new StreamWriter(filename);
                 init = "<html>" +
-                    "<head>" + "</head>" +
+                    "<head>" +
+                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/bootstrap.min.css\" >"
+                    + "<script type=\"text/javascript\" src=\"js/bootstrap.min.js\"></script>"
+                    + "<script type=\"text/javascript\" src=\"js/jquery-3.4.1.min.js\"></script>"
+                    + "<style type=\"text/css\">"
+                    + "table th{ text-align: center;} td{text-align: center;}"
+                    + "</style>"
+                    + "</head>" +
                     "<body>" +
-                        "<table class=\"egt\">" +
+                        "<table class=\"table table-dark\">" +
                         "<tr>" +
-                            "<th> Numero </th>" +
-                            "<th > Lexema </th>" +
-                            "<th> Tipo </th>" +
+                            "<th scope=\"col\"> Numero </th>" +
+                            "<th scope=\"col\"> Lexema </th>" +
+                            "<th scope=\"col\"> Tipo </th>" +
                           "</tr>";
                 foreach (MatrixToken token in tokens)
                 {
                                         init += "<tr>"
-                            + "<td align=\"center\">" + token.getNumber() + "</td>"
+                            + "<td >" + token.getNumber() + "</td>"
                             + "<td>" + token.getToken().getValor() + "</td>"
                             + "<td>" + token.getToken().getTipoToken() + "</td>"
                         + "</tr>";

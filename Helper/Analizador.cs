@@ -159,35 +159,6 @@ namespace AnalizadorLexico.Helper
                         }
                         
                         break;
-                    case 3:
-                        if (c.Equals('}'))
-                        {
-                            auxLex += c;
-                            addToken(TokenModel.TYPE.LLAVE_DER);
-                        }
-                        else if (c.Equals(')'))
-                        {
-                            auxLex += c;
-                            addToken(TokenModel.TYPE.PARENTESIS_DER);
-                        }
-                        else if (c.Equals(']'))
-                        {
-                            state = 0;
-                            auxLex += c;
-                            addToken(TokenModel.TYPE.CORCHETE_DER);
-                        }else if (c.Equals('#'))
-                        {
-                            state = 0;
-                        }
-                        else
-                        {
-                            if (!Char.IsWhiteSpace(c) || !c.Equals('#'))
-                            {
-                                addError("CARACTER DESCONOCIDO", c);
-                            }
-                        }
-                        break;
-
                     default:
 
                         break;

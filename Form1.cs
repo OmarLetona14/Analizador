@@ -103,7 +103,7 @@ namespace AnalizadorLexico
                     file.generateHTMLTokensFile(tokens, htmlFile_route);
                     Process.Start(htmlFile_route);
                     analisis.imprimirTokens();
-                  //  plans = generate.generar(tokens);
+                    plans = generate.generar(tokens);
                    // generateTreeView();
 
                 }

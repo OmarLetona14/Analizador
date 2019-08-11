@@ -42,17 +42,14 @@ namespace AnalizadorLexico.Helper
                             while (!(tokens[x].getToken().getTipoToken().Equals("CORCHETE_DER")) ||
                                     x<tokens.Count)
                             {
-
-                                if (tokens[x].getToken().getValor().Equals("año"))
+                                x +=6;
+                                if (tokens[x].getToken().getTipoToken().Equals("PALABRA_RESERVADA"))
                                 {
                                     if (tokens[x +1].getToken().getTipoToken().Equals("DOS_PUNTOS"))
                                     {
-                                        year = new Year();
+                                        year = new Year();         
                                         
-                                        
-                                        
-                                        
-                                        if (tokens[x + 2].getToken().getTipoToken().Equals("NUMERO")) {
+                                        if (tokens[x + 2].getToken().getTipoToken().Equals("IDENTIFICADOR")) {
                                             try
                                             {
                                                 year.YearVariable = Int32.Parse(tokens[x + 2].getToken().getValor());
@@ -67,7 +64,7 @@ namespace AnalizadorLexico.Helper
                                                 while (!(tokens[u].getToken().getTipoToken().Equals("LLAVE_DER")) || 
                                                     u<tokens.Count)
                                                 {
-                                                    if (tokens[u].getToken().getValor().Equals("mes"))
+                                                    if (tokens[u].getToken().getTipoToken().Equals("PALABRA_RESERVADA"))
                                                     {
                                                         if (tokens[u + 1].getToken().getTipoToken().Equals("DOS_PUNTOS"))
                                                         {
@@ -78,7 +75,7 @@ namespace AnalizadorLexico.Helper
                                                             days = new List<Day>();
                                                             mouth.Days = days;
                                                         }            
-                                                            if (tokens[u + 2].getToken().getTipoToken().Equals("NUMERO"))
+                                                            if (tokens[u + 2].getToken().getTipoToken().Equals("IDENTIFICADOR"))
                                                             {
                                                                 try
                                                                 {
@@ -93,13 +90,13 @@ namespace AnalizadorLexico.Helper
                                                                     int i = u;
                                                                     while (!(tokens[i].getToken().getTipoToken().Equals("PARENTESIS_DER")))
                                                                     {
-                                                                        if (tokens[i].getToken().getValor().Equals("dia"))
+                                                                        if (tokens[i].getToken().getTipoToken().Equals("PALABRA_RESERVADA"))
                                                                         {
                                                                             if (tokens[i+1].getToken().getTipoToken().Equals("DOS_PUNTOS"))
                                                                             {
                                                                                 day = new Day();
                                                                              
-                                                                                if (tokens[i + 2].getToken().getTipoToken().Equals("NUMERO"))
+                                                                                if (tokens[i + 2].getToken().getTipoToken().Equals("IDENTIFICADOR"))
                                                                                 {
                                                                                     try
                                                                                     {
@@ -111,7 +108,7 @@ namespace AnalizadorLexico.Helper
                                                                                     }
                                                                                     if (tokens[i + 3].getToken().getTipoToken().Equals("MENOR_QUE"))
                                                                                     {
-                                                                                        if (tokens[i + 4].getToken().getValor().Equals("descripcion"))
+                                                                                        if (tokens[i + 4].getToken().getTipoToken().Equals("PALABRA_RESERVADA"))
                                                                                         {
                                                                                             if (tokens[i + 5].getToken().getTipoToken().Equals("DOS_PUNTOS"))
                                                                                             {
@@ -122,7 +119,7 @@ namespace AnalizadorLexico.Helper
                                                                                                         day.Description = tokens[i + 7].getToken().getValor();
                                                                                                         if (tokens[i + 9].getToken().getTipoToken().Equals("PUNTO_Y_COMA"))
                                                                                                         {
-                                                                                                            if (tokens[i + 10].getToken().getValor().Equals("imagen"))
+                                                                                                            if (tokens[i + 10].getToken().getTipoToken().Equals("PALABRA_RESERVADA"))
                                                                                                             {
                                                                                                                 if (tokens[i + 11].getToken().getTipoToken().Equals("DOS_PUNTOS"))
                                                                                                                 {
@@ -168,11 +165,12 @@ namespace AnalizadorLexico.Helper
                                             }
                                         }
                                     }
-                                    years.Add(year);
-                                }
+                                    //years.Add(year);
+                                x++;
+                            }
                                 nuevaPlanificacion.Years = years;
 
-                                x++;
+                               
                             }
                             years.OrderBy(p => p.YearVariable);
                             nuevaPlanificacion.Years = years;
