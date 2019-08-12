@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Day = AnalizadorLexico.Model.Day;
 
 namespace AnalizadorLexico
 {
@@ -126,17 +127,22 @@ namespace AnalizadorLexico
         {
             for(int p = 0; p<plans.Count;p++)
             {
-
                 PlanificacionTree.Nodes.Add(plans[p].Nombre);
+                
+                PlanificacionTree.Nodes[p].ExpandAll();
                 for (int y = 0; y < plans[p].Years.Count; y++)
                 {
-                    PlanificacionTree.Nodes[p].Nodes.Add(Convert.ToString(plans[p].Years[y].YearVariable));  
+                    PlanificacionTree.Nodes[p].Nodes.Add(Convert.ToString(plans[p].Years[y].YearVariable));
+                    PlanificacionTree.Nodes[p].Nodes[y].Expand();
                     for (int m = 0; m < plans[p].Years[y].Mouths.Count; m++)
                     {
-                        PlanificacionTree.Nodes[p].Nodes[y].Nodes.Add(Convert.ToString(plans[p].Years[y].Mouths[m].MouthVariable)); 
+                        PlanificacionTree.Nodes[p].Nodes[y].Nodes.Add(Convert.ToString(plans[p].Years[y].Mouths[m].MouthVariable));
+                        PlanificacionTree.Nodes[p].Nodes[y].Nodes[m].Expand();
                         for (int d = 0; d < plans[p].Years[y].Mouths[m].Days.Count;d++)
                         {
-                            PlanificacionTree.Nodes[p].Nodes[y].Nodes[m].Nodes.Add(Convert.ToString(plans[p].Years[y].Mouths[m].Days[d].DayVariable)); 
+                            PlanificacionTree.Nodes[p].Nodes[y].Nodes[m].Nodes.Add(Convert.ToString(plans[p].Years[y].Mouths[m].Days[d].DayVariable));
+                            PlanificacionTree.Nodes[p].Nodes[y].Nodes[m].Nodes[d].Expand();
+
                         }
                     }
                 }
@@ -144,6 +150,8 @@ namespace AnalizadorLexico
             }
         }
 
+        
+        
 
         private void GuardarToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -154,6 +162,7 @@ namespace AnalizadorLexico
         private void PlanificacionTree_AfterSelect(object sender, TreeViewEventArgs e)
         {
 
+          
         }
 
         public void guardarComo()
@@ -177,6 +186,83 @@ namespace AnalizadorLexico
         {
             InitializeComponent();
         }
+
+        private void PlanificacionTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            int mes, dia, anio;
+            String planificacion_nombre;
+            Day day;
+            TreeNode node = new TreeNode();
+             node = e.Node;
+            if (node.Level==3){
+                dia = Convert.ToInt32(node.Text);
+                mes = Convert.ToInt32(node.Parent.Text);
+                anio = Convert.ToInt32(node.Parent.Parent.Text);
+                planificacion_nombre = node.Parent.Parent.Parent.Text;
+                day = getDay(planificacion_nombre, dia, mes, anio);
+                if (day!=null)
+                {
+                    if (DescriptionPanel.Controls.Count!=0)
+                    {
+                        DescriptionPanel.Controls.Clear();
+                    }
+                    Label descrip_lbl = new Label();
+                    descrip_lbl.Text = day.Description;
+                    descrip_lbl.AutoSize = true;
+                    Label img = new Label();
+                    Image image = null;
+                    try
+                    {
+                        image = Image.FromFile(day.UrlImage);
+                        img.Image = image;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("No se pudo encontrar la imagen especificada");
+                    }
+                    
+                    if (image!=null)
+                    {
+                        DescriptionPanel.Controls.Add(img);
+                    }
+                    DescriptionPanel.Controls.Add(descrip_lbl);
+                }
+            }
+
+        }
+
+
+        private Day getDay(String nombre_plan, int dia, int mes, int anio)
+        {
+            for (int p = 0; p<plans.Count;p++)
+            {
+                if (plans[p].Nombre==nombre_plan)
+                {
+                    for (int y = 0;y<plans[p].Years.Count;y++)
+                    {
+                        if (plans[p].Years[y].YearVariable==anio)
+                        {
+                            for (int m=0;m< plans[p].Years[y].Mouths.Count;m++)
+                            {
+                                if (plans[p].Years[y].Mouths[m].MouthVariable==mes)
+                                {
+                                    for (int d= 0;d< plans[p].Years[y].Mouths[m].Days.Count;d++)
+                                    {
+                                        if (plans[p].Years[y].Mouths[m].Days[d].DayVariable==dia)
+                                        {
+                                            return plans[p].Years[y].Mouths[m].Days[d];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        
 
         private void AbrirToolStripMenuItem1_Click(object sender, EventArgs e)
         {

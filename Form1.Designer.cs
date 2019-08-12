@@ -52,7 +52,7 @@
             this.tabsControlPane = new System.Windows.Forms.TabControl();
             this.PlanificacionTree = new System.Windows.Forms.TreeView();
             this.Calendar = new System.Windows.Forms.MonthCalendar();
-            this.descripcionPanel = new System.Windows.Forms.Panel();
+            this.DescriptionPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.contextMenuStrip3.SuspendLayout();
             this.contextMenuStrip5.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -223,6 +223,7 @@
             this.PlanificacionTree.Size = new System.Drawing.Size(323, 202);
             this.PlanificacionTree.TabIndex = 12;
             this.PlanificacionTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.PlanificacionTree_AfterSelect);
+            this.PlanificacionTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.PlanificacionTree_NodeMouseClick);
             // 
             // Calendar
             // 
@@ -230,19 +231,19 @@
             this.Calendar.Name = "Calendar";
             this.Calendar.TabIndex = 13;
             // 
-            // descripcionPanel
+            // DescriptionPanel
             // 
-            this.descripcionPanel.Location = new System.Drawing.Point(726, 309);
-            this.descripcionPanel.Name = "descripcionPanel";
-            this.descripcionPanel.Size = new System.Drawing.Size(716, 199);
-            this.descripcionPanel.TabIndex = 14;
+            this.DescriptionPanel.Location = new System.Drawing.Point(714, 286);
+            this.DescriptionPanel.Name = "DescriptionPanel";
+            this.DescriptionPanel.Size = new System.Drawing.Size(714, 251);
+            this.DescriptionPanel.TabIndex = 14;
             // 
             // analizador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1454, 560);
-            this.Controls.Add(this.descripcionPanel);
+            this.Controls.Add(this.DescriptionPanel);
             this.Controls.Add(this.Calendar);
             this.Controls.Add(this.PlanificacionTree);
             this.Controls.Add(this.tabsControlPane);
@@ -281,9 +282,9 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.TreeView PlanificacionTree;
         private System.Windows.Forms.MonthCalendar Calendar;
-        private System.Windows.Forms.Panel descripcionPanel;
         private System.Windows.Forms.ToolStripMenuItem manualDeAplicaciónToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem1;
+        private System.Windows.Forms.FlowLayoutPanel DescriptionPanel;
     }
 }
 
