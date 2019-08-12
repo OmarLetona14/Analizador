@@ -25,15 +25,16 @@ namespace AnalizadorLexico.Helper
 
         }
 
-        private void addError(String descripcion, char lexema)
+        private void addError(char lexema, int columna, int fila, String descripcion)
         {
-            errores.Add(new Error(errores.Count, descripcion, lexema));
+            errores.Add(new Error(errores.Count, lexema, columna, fila, descripcion));
             auxLex = "";
             sintaxisError = true;
         }
 
         public List<MatrixToken> analizar(String entrance)
         {
+            int columna = 1, fila = 1;
             matrix = new List<MatrixToken>();
             errores = new List<Error>();
             state = 0;
@@ -42,6 +43,16 @@ namespace AnalizadorLexico.Helper
             for (int i = 0; i < entrance.Length; i++)
             {
                 c = entrance.ElementAt(i);
+                if (c != '\n')
+                {
+          
+                    columna+=1;
+                }
+                else
+                {
+                    columna = 0;
+                    fila += 1;
+                }
                 switch (state)
                 {
 
@@ -87,7 +98,7 @@ namespace AnalizadorLexico.Helper
                         {
                             if (!Char.IsWhiteSpace(c))
                             {
-                                addError("CARACTER DESCONOCIDO", c);
+                                addError(c, columna, fila, "CARACTER DESCONOCIDO");
                             }
                             
                         }
@@ -127,7 +138,7 @@ namespace AnalizadorLexico.Helper
                         {
                             if (!Char.IsWhiteSpace(c))
                             {
-                                addError("CARACTER DESCONOCIDO", c);
+                                addError(c, columna, fila, "CARACTER DESCONOCIDO");
                             }
                         }
 

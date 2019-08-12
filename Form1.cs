@@ -104,15 +104,17 @@ namespace AnalizadorLexico
                     Process.Start(htmlFile_route);
                     analisis.imprimirTokens();
                     plans = generate.generar(tokens);
-                   // generateTreeView();
+                    generateTreeView();
 
                 }
                 else
                 {
-                    htmlFile_route = "D:\\Users\\Omar\\Desktop\\errores.html";
+                    htmlFile_route = "C:\\Users\\Omar\\Documents\\Omar\\Lenguajes Formales y de programación\\AnalizadorLexico" +
+                        "\\AnalizadorLexico\\Helper\\erroes.html";
                     file.generateErrorsHTMLFile(Analizador.errores, htmlFile_route);
                     MessageBox.Show("Ocurrió un error al leer el código", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Analizador.sintaxisError = false;
+                    Process.Start(htmlFile_route);
                 }
                 
             }
@@ -122,18 +124,19 @@ namespace AnalizadorLexico
 
         public void generateTreeView()
         {
-            foreach (Planificacion plan in plans)
+            for(int p = 0; p<plans.Count;p++)
             {
-                PlanificacionTree.Nodes[0].Text = plan.Nombre;
-                for (int y = 0; y <= plan.Years.Count; y++)
+
+                PlanificacionTree.Nodes.Add(plans[p].Nombre);
+                for (int y = 0; y < plans[p].Years.Count; y++)
                 {
-                    PlanificacionTree.Nodes[1].Text = Convert.ToString(plan.Years[y].YearVariable);
-                    for (int m = 0; m <= plan.Years[y].Mouths.Count; m++)
+                    PlanificacionTree.Nodes[p].Nodes.Add(Convert.ToString(plans[p].Years[y].YearVariable));  
+                    for (int m = 0; m < plans[p].Years[y].Mouths.Count; m++)
                     {
-                        PlanificacionTree.Nodes[2].Text = Convert.ToString(plan.Years[y].Mouths[m].MouthVariable);
-                        for (int d = 0; d <= plan.Years[y].Mouths[m].Days.Count;d++)
+                        PlanificacionTree.Nodes[p].Nodes[y].Nodes.Add(Convert.ToString(plans[p].Years[y].Mouths[m].MouthVariable)); 
+                        for (int d = 0; d < plans[p].Years[y].Mouths[m].Days.Count;d++)
                         {
-                            PlanificacionTree.Nodes[3].Text = Convert.ToString(plan.Years[y].Mouths[m].Days[d].DayVariable);
+                            PlanificacionTree.Nodes[p].Nodes[y].Nodes[m].Nodes.Add(Convert.ToString(plans[p].Years[y].Mouths[m].Days[d].DayVariable)); 
                         }
                     }
                 }

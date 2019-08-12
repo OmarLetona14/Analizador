@@ -73,6 +73,8 @@ namespace AnalizadorLexico.Helper
                         "<table class=\"table table-dark\" style= \"text - align:center;\" >" +
                         "<tr>" +
                             "<th> Numero de error </th>" +
+                            "<th> Fila </th>" +
+                            "<th> Columna </th>" +
                             "<th> Error </th>" +
                             "<th> Descripcion </th>" +
                           "</tr>";
@@ -81,7 +83,9 @@ namespace AnalizadorLexico.Helper
 
                     init += "<tr>"
                             + "<td>" + error.getNoError() + "</td>"
-                            + "<td>" + error.getLexema() + "</td>"
+                            + "<td>" + error.getFila() + "</td>"
+                            + "<td>" + error.getColumna() + "</td>"
+                            + "<td>" + error.getCaracter() + "</td>"
                             + "<td>" + error.getDescripcion() + "</td>"
                         + "</tr>";
                 }

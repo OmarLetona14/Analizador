@@ -9,12 +9,12 @@ namespace AnalizadorLexico.Model
     class Day
     {
         private int day;
-        private int mouth;
+        private Mouth mouth;
         private String description;
         private String urlImage;
         private DateTime currentDate;
 
-        public Day(int day, string description, string urlImage, int mouth, DateTime currentDate)
+        public Day(int day, string description, string urlImage, Mouth mouth, DateTime currentDate)
         {
             this.day = day;
             this.description = description;
@@ -76,7 +76,7 @@ namespace AnalizadorLexico.Model
             }
         }
 
-        public int Mouth
+        public Mouth Mouth
         {
             get
             {

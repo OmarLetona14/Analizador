@@ -131,7 +131,7 @@
             this.acercaDeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1291, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1454, 28);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -220,7 +220,7 @@
             // 
             this.PlanificacionTree.Location = new System.Drawing.Point(1119, 52);
             this.PlanificacionTree.Name = "PlanificacionTree";
-            this.PlanificacionTree.Size = new System.Drawing.Size(160, 202);
+            this.PlanificacionTree.Size = new System.Drawing.Size(323, 202);
             this.PlanificacionTree.TabIndex = 12;
             this.PlanificacionTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.PlanificacionTree_AfterSelect);
             // 
@@ -234,14 +234,14 @@
             // 
             this.descripcionPanel.Location = new System.Drawing.Point(726, 309);
             this.descripcionPanel.Name = "descripcionPanel";
-            this.descripcionPanel.Size = new System.Drawing.Size(553, 199);
+            this.descripcionPanel.Size = new System.Drawing.Size(716, 199);
             this.descripcionPanel.TabIndex = 14;
             // 
             // analizador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1291, 560);
+            this.ClientSize = new System.Drawing.Size(1454, 560);
             this.Controls.Add(this.descripcionPanel);
             this.Controls.Add(this.Calendar);
             this.Controls.Add(this.PlanificacionTree);

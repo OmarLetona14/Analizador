@@ -10,18 +10,16 @@ namespace AnalizadorLexico.Model
     {
         private int idPlanificacion;
         private String nombre;
-        private DateTime date;
         private List<Year> years;
         
 
         public Planificacion()
         {}
 
-        public Planificacion(int idPlanificacion, string nombre, DateTime date, List<Year> years)
+        public Planificacion(int idPlanificacion, string nombre, DateTime date)
         {
             this.idPlanificacion = idPlanificacion;
             this.nombre = nombre;
-            this.date = date;
             this.years = years;
         }
 
@@ -42,20 +40,6 @@ namespace AnalizadorLexico.Model
                 nombre = value;
             }
         }
-
-        public DateTime Date
-        {
-            get
-            {
-                return date;
-            }
-            set
-            {
-                date = value;
-            }
-        }
-        
-
         public List<Year> Years
         {
             get

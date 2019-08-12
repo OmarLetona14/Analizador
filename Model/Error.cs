@@ -9,13 +9,17 @@ namespace AnalizadorLexico.Model
     class Error
     {
         private int noError;
-        private char lexema;
+        private char caracter;
+        private int columna;
+        private int fila;
         private String descripcion;
 
-        public Error(int noError, String descripcion, char lexema)
+        public Error(int noError, char caracter, int columna, int fila, string descripcion)
         {
             this.noError = noError;
-            this.lexema = lexema;
+            this.caracter = caracter;
+            this.columna = columna;
+            this.fila = fila;
             this.descripcion = descripcion;
         }
 
@@ -24,9 +28,18 @@ namespace AnalizadorLexico.Model
             return noError;
         }
 
-        public char getLexema()
+        public int getColumna()
         {
-            return lexema;
+            return columna;
+        }
+
+        public int getFila()
+        {
+            return fila;
+        }
+        public char getCaracter()
+        {
+            return caracter;
         }
 
         public String getDescripcion()
@@ -39,9 +52,19 @@ namespace AnalizadorLexico.Model
             this.noError = noError;
         }
 
-        public void setLexema(char lexema)
+        public void setColumna(int columna)
         {
-            this.lexema = lexema;
+            this.columna = columna;
+        }
+
+        public void setFila(int fila)
+        {
+            this.fila = fila;
+        }
+
+        public void setCaracter(char caracter)
+        {
+            this.caracter = caracter;
         }
 
         public void setDescripcion(String descripcion)
