@@ -9,12 +9,12 @@ namespace AnalizadorLexico.Model
     class Error
     {
         private int noError;
-        private char caracter;
+        private String caracter;
         private int columna;
         private int fila;
         private String descripcion;
 
-        public Error(int noError, char caracter, int columna, int fila, string descripcion)
+        public Error(int noError, String caracter, int columna, int fila, string descripcion)
         {
             this.noError = noError;
             this.caracter = caracter;
@@ -37,7 +37,7 @@ namespace AnalizadorLexico.Model
         {
             return fila;
         }
-        public char getCaracter()
+        public String getCaracter()
         {
             return caracter;
         }
@@ -62,7 +62,7 @@ namespace AnalizadorLexico.Model
             this.fila = fila;
         }
 
-        public void setCaracter(char caracter)
+        public void setCaracter(String caracter)
         {
             this.caracter = caracter;
         }

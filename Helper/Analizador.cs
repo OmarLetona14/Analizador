@@ -25,7 +25,7 @@ namespace AnalizadorLexico.Helper
 
         }
 
-        private void addError(char lexema, int columna, int fila, String descripcion)
+        private void addError(String lexema, int columna, int fila, String descripcion)
         {
             errores.Add(new Error(errores.Count, lexema, columna, fila, descripcion));
             auxLex = "";
@@ -58,22 +58,55 @@ namespace AnalizadorLexico.Helper
 
                     case 0:
                         if (Char.IsLetter(c))
-                        {
+                        { 
                             auxLex += c;
                         }
                         else if (c.Equals(':'))
                         {
-                            state = 1;
-                            addToken(TokenModel.TYPE.PALABRA_RESERVADA);
-                            auxLex += c;
-                            addToken(TokenModel.TYPE.DOS_PUNTOS);
-                        }else if (Char.IsDigit(c))
-                        {
-                            state = 1;
-                            auxLex += c;
+                            switch (auxLex.ToLower())
+                            {
+                                case "planificador":
+                                    state = 1;
+                                    addToken(TokenModel.TYPE.PALABRA_RESERVADA);
+                                    auxLex += c;
+                                    addToken(TokenModel.TYPE.DOS_PUNTOS);
+                                    break;
+                                case "año":
+                                    state = 1;
+                                    addToken(TokenModel.TYPE.PALABRA_RESERVADA);
+                                    auxLex += c;
+                                    addToken(TokenModel.TYPE.DOS_PUNTOS);
+                                    break;
+                                case "dia":
+                                    state = 1;
+                                    addToken(TokenModel.TYPE.PALABRA_RESERVADA);
+                                    auxLex += c;
+                                    addToken(TokenModel.TYPE.DOS_PUNTOS);
+                                    break;
+                                case "mes":
+                                    state = 1;
+                                    addToken(TokenModel.TYPE.PALABRA_RESERVADA);
+                                    auxLex += c;
+                                    addToken(TokenModel.TYPE.DOS_PUNTOS);
+                                    break;
+                                case "descripcion":
+                                    state = 1;
+                                    addToken(TokenModel.TYPE.PALABRA_RESERVADA);
+                                    auxLex += c;
+                                    addToken(TokenModel.TYPE.DOS_PUNTOS);
+                                    break;
+                                case "imagen":
+                                    state = 1;
+                                    addToken(TokenModel.TYPE.PALABRA_RESERVADA);
+                                    auxLex += c;
+                                    addToken(TokenModel.TYPE.DOS_PUNTOS);
+                                    break;
+                                default:
+                                    state = 1;
+                                    addError(auxLex,columna, fila, "PALABRA O CARACTER DESCONOCIDO");
+                                    break;
+                            }
                         }
-
-
                         else if (c.Equals('>'))
                         {
                             auxLex += c;
@@ -98,7 +131,7 @@ namespace AnalizadorLexico.Helper
                         {
                             if (!Char.IsWhiteSpace(c))
                             {
-                                addError(c, columna, fila, "CARACTER DESCONOCIDO");
+                                addError(Char.ToString(c), columna, fila, "CARACTER DESCONOCIDO");
                             }
                             
                         }
@@ -138,7 +171,7 @@ namespace AnalizadorLexico.Helper
                         {
                             if (!Char.IsWhiteSpace(c))
                             {
-                                addError(c, columna, fila, "CARACTER DESCONOCIDO");
+                                addError(Char.ToString(c), columna, fila, "CARACTER DESCONOCIDO");
                             }
                         }
 

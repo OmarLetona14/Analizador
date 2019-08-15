@@ -52,10 +52,12 @@
             this.tabsControlPane = new System.Windows.Forms.TabControl();
             this.PlanificacionTree = new System.Windows.Forms.TreeView();
             this.Calendar = new System.Windows.Forms.MonthCalendar();
-            this.DescriptionPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.contenedor = new System.Windows.Forms.SplitContainer();
             this.contextMenuStrip3.SuspendLayout();
             this.contextMenuStrip5.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.contenedor)).BeginInit();
+            this.contenedor.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -231,19 +233,24 @@
             this.Calendar.Name = "Calendar";
             this.Calendar.TabIndex = 13;
             // 
-            // DescriptionPanel
+            // contenedor
             // 
-            this.DescriptionPanel.Location = new System.Drawing.Point(714, 286);
-            this.DescriptionPanel.Name = "DescriptionPanel";
-            this.DescriptionPanel.Size = new System.Drawing.Size(714, 251);
-            this.DescriptionPanel.TabIndex = 14;
+            this.contenedor.Location = new System.Drawing.Point(714, 267);
+            this.contenedor.Name = "contenedor";
+            // 
+            // contenedor.Panel1
+            // 
+            this.contenedor.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.SplitContainer1_Panel1_Paint);
+            this.contenedor.Size = new System.Drawing.Size(728, 271);
+            this.contenedor.SplitterDistance = 293;
+            this.contenedor.TabIndex = 15;
             // 
             // analizador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1454, 560);
-            this.Controls.Add(this.DescriptionPanel);
+            this.Controls.Add(this.contenedor);
             this.Controls.Add(this.Calendar);
             this.Controls.Add(this.PlanificacionTree);
             this.Controls.Add(this.tabsControlPane);
@@ -255,6 +262,8 @@
             this.contextMenuStrip5.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.contenedor)).EndInit();
+            this.contenedor.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,7 +293,7 @@
         private System.Windows.Forms.MonthCalendar Calendar;
         private System.Windows.Forms.ToolStripMenuItem manualDeAplicaciónToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem1;
-        private System.Windows.Forms.FlowLayoutPanel DescriptionPanel;
+        private System.Windows.Forms.SplitContainer contenedor;
     }
 }
 

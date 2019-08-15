@@ -12,7 +12,6 @@ namespace AnalizadorLexico.Model
         private int mouth;
         private int year;
         private List<Day> days;
-        
 
         public Mouth(int mouth, int year, List<Day> days)
         {

@@ -141,7 +141,7 @@ namespace AnalizadorLexico.Helper
                                                                                                                                 {
                                                                                                                                     day.Mouth = mouth;
                                                                                                                                     day.CurrentDate = generateDate(day.Mouth.Year,
-                                                                                                                                        day.DayVariable, day.Mouth.MouthVariable);
+                                                                                                                                        day.Mouth.MouthVariable, day.DayVariable);
                                                                                                                                     days.Add(day);
                                                                                                                                 }
                                                                                                                             }
@@ -154,18 +154,15 @@ namespace AnalizadorLexico.Helper
                                                                                                 }
                                                                                             }
                                                                                         }
-                                                                                    }
-                                                                                    
+                                                                                    }                                                                                  
                                                                                 }
                                                                             }
                                                                         }
-
                                                                         i++;
                                                                     }
                                                                 mouth.Days = days;
                                                                 days.OrderBy(p => p.DayVariable);
                                                                 }
-
                                                             }
                                                         }
                                                         u++;
@@ -187,15 +184,13 @@ namespace AnalizadorLexico.Helper
                                     y++;
 
                                 }
-
                             }
                         }
                     }
                 if (nuevaPlanificacion!=null && !(verifyPlanification(nuevaPlanificacion, planificaciones)))
                 {
                     planificaciones.Add(nuevaPlanificacion);
-                }
-                
+                }               
             }
             return planificaciones;
         }
@@ -204,11 +199,29 @@ namespace AnalizadorLexico.Helper
         public DateTime generateDate(int year, int mouth, int day)
         {
             DateTime date =DateTime .Now;
-            CultureInfo provider = CultureInfo.InvariantCulture;
-            String fecha = day+"/"+mouth+"/"+year;
+            String nuevoDia = "", nuevoMes = "";
+            if (day.ToString().Length == 1)
+            {
+                String str_day = day.ToString();
+                nuevoDia = "0" + str_day;
+            }
+            else{
+                nuevoDia = day.ToString();
+            }
+            if (mouth.ToString().Length==1)
+            {
+                String str_mouth = mouth.ToString();
+                nuevoMes = "0" + str_mouth;
+            }
+            else
+            {
+                nuevoMes = mouth.ToString();
+            }
+            String fecha = nuevoDia+"/"+nuevoMes+"/"+year;
             try
             {
-                date = Convert.ToDateTime(fecha);
+                date = DateTime.ParseExact(fecha, "dd/MM/yyyy", null);
+        
             }
             catch (Exception e)
             {

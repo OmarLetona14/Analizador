@@ -39,14 +39,28 @@ namespace AnalizadorLexico.Helper
 
         public void SaveFile(String filename, RichTextBox codeText)
         {
-            if (!File.Exists(filename))
+            try {
+                if (!File.Exists(filename))
+                {
+                    fileStream = File.Create(filename);
+                    fileStream.Close();
+                    WriteArchive(filename, codeText);
+                    MessageBox.Show("Archivo guardado correctamente", "Analizador",
+                        MessageBoxButtons.OK);
+                }
+                else
+                {
+                    WriteArchive(filename, codeText);
+                    MessageBox.Show("Archivo guardado correctamente", "Analizador",
+                        MessageBoxButtons.OK);
+                }
+
+            } catch (Exception e)
             {
-                fileStream = File.Create(filename);
-                fileStream.Close();
-                WriteArchive(filename, codeText);
-                MessageBox.Show("Archivo guardado correctamente", "Analizador",
-                    MessageBoxButtons.OK);
+                MessageBox.Show("Ocurrió un error al intentar guardar el archivo", "Analizador",
+                        MessageBoxButtons.OK);
             }
+            
             
 
         }

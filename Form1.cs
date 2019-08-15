@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -88,8 +89,32 @@ namespace AnalizadorLexico
             this.Dispose();
         }
 
+        private void generateCalendar()
+        {
+            if (plans !=null)
+            {
+                for (int p=0;p<plans.Count;p++)
+                {
+                    for (int y=0;y<plans[p].Years.Count;y++)
+                    {
+                        for (int m=0;m< plans[p].Years[y].Mouths.Count;m++)
+                        {
+                            for (int d = 0;d< plans[p].Years[y].Mouths[m].Days.Count;d++ )
+                            {
+                                Calendar.AddBoldedDate(plans[p].Years[y].Mouths[m].Days[d].CurrentDate);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            
+        }
+
         private void Button1_Click(object sender, EventArgs e)
         {
+            Calendar = new MonthCalendar();
+            PlanificacionTree = new TreeView();
             GenerarPlanificador generate = new GenerarPlanificador();
             analisis = new Analizador();
             tokens = new List<MatrixToken>();
@@ -106,7 +131,7 @@ namespace AnalizadorLexico
                     analisis.imprimirTokens();
                     plans = generate.generar(tokens);
                     generateTreeView();
-
+                    generateCalendar();
                 }
                 else
                 {
@@ -155,14 +180,32 @@ namespace AnalizadorLexico
 
         private void GuardarToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-             guardarComo();
-            
+            if (tabsControlPane != null)
+            {
+                if (tabsControlPane.SelectedTab.Text == "")
+                {
+                    guardarComo();
+                }
+                else
+                {
+                    guardar(tabsControlPane.SelectedTab.Text);
+                }
+            }
+            else {
+                guardarComo();
+            }  
         }
 
         private void PlanificacionTree_AfterSelect(object sender, TreeViewEventArgs e)
         {
 
           
+        }
+
+        private void guardar(String route)
+        {
+            reader = new CustomFileReader();
+            reader.SaveFile(route, getTextBox());
         }
 
         public void guardarComo()
@@ -173,7 +216,7 @@ namespace AnalizadorLexico
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
                 Sa_filename = saveFile.FileName;
-                reader.SaveFile(Sa_filename, CodeTxt);
+                reader.SaveFile(Sa_filename, getTextBox());
             }
             saveFile.Dispose();
         }
@@ -200,20 +243,30 @@ namespace AnalizadorLexico
                 anio = Convert.ToInt32(node.Parent.Parent.Text);
                 planificacion_nombre = node.Parent.Parent.Parent.Text;
                 day = getDay(planificacion_nombre, dia, mes, anio);
-                if (day!=null)
+                if (day != null)
                 {
-                    if (DescriptionPanel.Controls.Count!=0)
+                    if (contenedor.Panel1.Controls.Count != 0)
                     {
-                        DescriptionPanel.Controls.Clear();
+                        contenedor.Panel1.Controls.Clear();
                     }
-                    Label descrip_lbl = new Label();
+                    if (contenedor.Panel2.Controls.Count != 0)
+                    {
+                        contenedor.Panel2.Controls.Clear();
+                    }
+                    Label descrip_lbl = new Label() {
+                       Height = contenedor.Panel1.Height,
+                       Width = contenedor.Panel1.Width
+                    };
                     descrip_lbl.Text = day.Description;
                     descrip_lbl.AutoSize = true;
-                    Label img = new Label();
+                    Label img = new Label() {
+                        Dock = DockStyle.Fill
+                    };
                     Image image = null;
                     try
                     {
                         image = Image.FromFile(day.UrlImage);
+                        image = resize(contenedor.Panel2.Width -50, contenedor.Panel2.Height-20, image);
                         img.Image = image;
                     }
                     catch (Exception ex)
@@ -223,12 +276,25 @@ namespace AnalizadorLexico
                     
                     if (image!=null)
                     {
-                        DescriptionPanel.Controls.Add(img);
+                        contenedor.Panel2.Controls.Add(img);
                     }
-                    DescriptionPanel.Controls.Add(descrip_lbl);
+                    contenedor.Panel1.Controls.Add(descrip_lbl);
                 }
             }
 
+        }
+
+        public Image resize( int newWidth, int newHeight, Image srcImage)
+        {
+            Bitmap newImage = new Bitmap(newWidth, newHeight);
+            using (Graphics gr = Graphics.FromImage(newImage))
+            {
+                gr.SmoothingMode = SmoothingMode.HighQuality;
+                gr.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                gr.DrawImage(srcImage, new Rectangle(0, 0, newWidth, newHeight));
+            }
+            return newImage;
         }
 
 
@@ -262,7 +328,10 @@ namespace AnalizadorLexico
             return null;
         }
 
-        
+        private void SplitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
 
         private void AbrirToolStripMenuItem1_Click(object sender, EventArgs e)
         {
