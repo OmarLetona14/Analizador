@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AnalizadorLexico.Helper
 {
@@ -14,8 +15,9 @@ namespace AnalizadorLexico.Helper
         public static List<Error> errores;
         int state;
         String auxLex;
-        public static Boolean sintaxisError;
+        public static Boolean lexicError, sintError;
         CustomFileGenerator file = new CustomFileGenerator();
+        List<Char> signos = new List<Char> {'[',']','{','}','(',')',';','"',':'};
 
         private void addToken(TokenModel.TYPE tipo)
         {
@@ -25,11 +27,25 @@ namespace AnalizadorLexico.Helper
 
         }
 
+        private Boolean errorLexico(Char e)
+        {
+            Boolean error = false;
+
+            foreach (Char c in signos)
+            {
+                if (c==e)
+                {
+                    error = true;
+                }
+            }
+            return error;
+        }
+
         private void addError(String lexema, int columna, int fila, String descripcion)
         {
             errores.Add(new Error(errores.Count+1, lexema, columna, fila, descripcion));
             auxLex = "";
-            sintaxisError = true;
+            lexicError = true;
         }
 
         public List<MatrixToken> analizar(String entrance)
@@ -133,7 +149,15 @@ namespace AnalizadorLexico.Helper
                         {
                             if (!Char.IsWhiteSpace(c))
                             {
-                                addError(Char.ToString(c), columna, fila, "CARACTER DESCONOCIDO");
+                                if (!errorLexico(c))
+                                {
+                                    addError(Char.ToString(c), columna, fila, "CARACTER DESCONOCIDO");
+                                }
+                                else
+                                {
+                                    sintError = true;
+                                }
+                                
                             }
                             
                         }
@@ -173,7 +197,15 @@ namespace AnalizadorLexico.Helper
                         {
                             if (!Char.IsWhiteSpace(c))
                             {
-                                addError(Char.ToString(c), columna, fila, "CARACTER DESCONOCIDO");
+                                state = 0;
+                                if (!errorLexico(c))
+                                {
+                                    addError(Char.ToString(c), columna, fila, "CARACTER DESCONOCIDO");
+                                }
+                                else
+                                {
+                                    sintError = true;
+                                }
                             }
                         }
 
@@ -214,7 +246,14 @@ namespace AnalizadorLexico.Helper
                             if (!Char.IsWhiteSpace(c))
                             {
                                 state = 0;
-                                addError(auxLex, columna, fila, "CARACTER DESCONOCIDO");
+                                if (!errorLexico(c))
+                                {
+                                    addError(Char.ToString(c), columna, fila, "CARACTER DESCONOCIDO");
+                                }
+                                else
+                                {
+                                    sintError = true;
+                                }
                             }  
                         }
                         break;

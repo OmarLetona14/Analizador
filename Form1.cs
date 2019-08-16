@@ -73,18 +73,7 @@ namespace AnalizadorLexico
         private void GuardarComoToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            String filenameSave = currentFile;
-            if (!File.Exists(currentFile))
-            {
-                guardarComo();
-
-            }
-            else if (File.Exists(currentFile))
-            {
-                reader.SaveFile(currentFile, CodeTxt);
-            }
-
-            this.Text = currentFile;
+            guardarComo();
         }
 
         private void Button2_Click(object sender, EventArgs e)
@@ -120,6 +109,8 @@ namespace AnalizadorLexico
             {
                 plans.Clear();
             }
+            contenedor.Panel1.Controls.Clear();
+            contenedor.Panel2.Controls.Clear();
             PlanificacionTree.Nodes.Clear();
             Calendar.RemoveAllBoldedDates();
             GenerarPlanificador generate = new GenerarPlanificador();
@@ -129,28 +120,45 @@ namespace AnalizadorLexico
             tokens = analisis.analizar(getTextBox(null).Text);
             if (getTextBox(null)!=null)
             {
-                if (!Analizador.sintaxisError)
+                if (!Analizador.lexicError)
                 {
-                    htmlFile_route = "C:\\Users\\Omar\\Documents\\Omar\\Lenguajes Formales y de programación\\AnalizadorLexico" +
-                        "\\AnalizadorLexico\\Helper\\tokens.html";
-                    file.generateHTMLTokensFile(tokens, htmlFile_route);
-                    MessageBox.Show("Analisis completado correctamente","Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (MessageBoxButtons.OK==0) {
-                        Process.Start(htmlFile_route);
-                        analisis.imprimirTokens();
-                        plans = generate.generar(tokens);
-                        generateTreeView();
-                        generateCalendar();
+                    if (!Analizador.sintError)
+                    {
+                        htmlFile_route = "C:\\Users\\Omar\\Documents\\Omar\\Lenguajes Formales y de programación\\AnalizadorLexico" +
+                       "\\AnalizadorLexico\\Helper\\tokens.html";
+                        file.generateHTMLTokensFile(tokens, htmlFile_route);
+                        MessageBox.Show("Analisis completado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (MessageBoxButtons.OK == 0)
+                        {
+                            Process.Start(htmlFile_route);
+                            analisis.imprimirTokens();
+                            plans = generate.generar(tokens);
+                            generateTreeView();
+                            generateCalendar();
+                        }
                     }
+                    else {
+                        htmlFile_route = "C:\\Users\\Omar\\Documents\\Omar\\Lenguajes Formales y de programación\\AnalizadorLexico" +
+                       "\\AnalizadorLexico\\Helper\\tokens.html";
+                        file.generateHTMLTokensFile(tokens, htmlFile_route);
+                        MessageBox.Show("El analisis lexico se completó pero existen errores sintacticos", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        if (MessageBoxButtons.OK == 0)
+                        {
+                            Process.Start(htmlFile_route);
+                            analisis.imprimirTokens();
+                            plans = generate.generar(tokens);
+                        }
+                    }
+                   
                     
                 }
-                else
+                else if(Analizador.lexicError)
                 {
                     htmlFile_route = "C:\\Users\\Omar\\Documents\\Omar\\Lenguajes Formales y de programación\\AnalizadorLexico" +
                         "\\AnalizadorLexico\\Helper\\erroes.html";
                     file.generateErrorsHTMLFile(Analizador.errores, htmlFile_route);
                     MessageBox.Show("Ocurrió un error al leer el código", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Analizador.sintaxisError = false;
+                    Analizador.lexicError = false;
                     Process.Start(htmlFile_route);
                 }
                 
