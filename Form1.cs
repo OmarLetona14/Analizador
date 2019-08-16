@@ -30,16 +30,19 @@ namespace AnalizadorLexico
         List<Planificacion> plans;
         CustomFileGenerator file;
         List<MatrixToken> tokens;
+        String tab_name;
+        Pintar pintar =  new Pintar();
 
         private void crearPestaña()
         {
             if (!button1.Enabled) {
                 button1.Enabled = true;
             }
+            tab_name = "Tab" + page_count;
             TabPage tab = new TabPage()
             {
                 Text = "Pestaña " + page_count,
-                Name = "Tab" + page_count
+                Name = tab_name
             };
             CodeTxt = new RichTextBox()
             {
@@ -113,25 +116,33 @@ namespace AnalizadorLexico
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            Calendar = new MonthCalendar();
-            PlanificacionTree = new TreeView();
+            if (plans!=null)
+            {
+                plans.Clear();
+            }
+            PlanificacionTree.Nodes.Clear();
+            Calendar.RemoveAllBoldedDates();
             GenerarPlanificador generate = new GenerarPlanificador();
             analisis = new Analizador();
             tokens = new List<MatrixToken>();
             file = new CustomFileGenerator();
-            tokens = analisis.analizar(getTextBox().Text);
-            if (getTextBox()!=null)
+            tokens = analisis.analizar(getTextBox(null).Text);
+            if (getTextBox(null)!=null)
             {
                 if (!Analizador.sintaxisError)
                 {
                     htmlFile_route = "C:\\Users\\Omar\\Documents\\Omar\\Lenguajes Formales y de programación\\AnalizadorLexico" +
                         "\\AnalizadorLexico\\Helper\\tokens.html";
                     file.generateHTMLTokensFile(tokens, htmlFile_route);
-                    Process.Start(htmlFile_route);
-                    analisis.imprimirTokens();
-                    plans = generate.generar(tokens);
-                    generateTreeView();
-                    generateCalendar();
+                    MessageBox.Show("Analisis completado correctamente","Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (MessageBoxButtons.OK==0) {
+                        Process.Start(htmlFile_route);
+                        analisis.imprimirTokens();
+                        plans = generate.generar(tokens);
+                        generateTreeView();
+                        generateCalendar();
+                    }
+                    
                 }
                 else
                 {
@@ -184,11 +195,19 @@ namespace AnalizadorLexico
             {
                 if (tabsControlPane.SelectedTab.Text == "")
                 {
+                  
                     guardarComo();
                 }
                 else
                 {
-                    guardar(tabsControlPane.SelectedTab.Text);
+                    if (File.Exists(tabsControlPane.SelectedTab.Text))
+                    {
+                        guardar(tabsControlPane.SelectedTab.Text);
+                    }
+                    else
+                    {
+                        guardarComo();
+                    } 
                 }
             }
             else {
@@ -205,7 +224,7 @@ namespace AnalizadorLexico
         private void guardar(String route)
         {
             reader = new CustomFileReader();
-            reader.SaveFile(route, getTextBox());
+            reader.SaveFile(route, getTextBox(null));
         }
 
         public void guardarComo()
@@ -216,8 +235,10 @@ namespace AnalizadorLexico
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
                 Sa_filename = saveFile.FileName;
-                reader.SaveFile(Sa_filename, getTextBox());
+                reader.SaveFile(Sa_filename, getTextBox(null));
+                tabsControlPane.SelectedTab.Text = Sa_filename;
             }
+            
             saveFile.Dispose();
         }
 
@@ -333,62 +354,124 @@ namespace AnalizadorLexico
 
         }
 
-        private void AbrirToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (tabsControlPane.TabCount == 0) {
-                crearPestaña();
-                currentFile = "";
-                openFile = new OpenFileDialog();
-                openFile.Filter = "Archivos de entrada(*.ly)|*.ly";
-
-                if (openFile.ShowDialog() == DialogResult.OK)
-                {
-                    reader = new CustomFileReader();
-                    Op_filename = openFile.FileName;
-                    currentFile = Op_filename;
-                    reader.ReadArchive(Op_filename, getTextBox());
-                }
-                tabsControlPane.SelectedTab.Text = Op_filename;
-                openFile.Dispose();
-            }
-            else
+        private void abrirArchivo(Boolean nuevo) {
+            openFile = new OpenFileDialog();
+            openFile.Filter = "Archivos de entrada(*.ly)|*.ly";
+            if (openFile.ShowDialog() == DialogResult.OK)
             {
-                currentFile = "";
-                openFile = new OpenFileDialog();
-                openFile.Filter = "Archivos de entrada(*.ly)|*.ly";
-
-                if (openFile.ShowDialog() == DialogResult.OK)
+                if (nuevo)
                 {
-                    reader = new CustomFileReader();
-                    Op_filename = openFile.FileName;
-                    currentFile = Op_filename;
-                    reader.ReadArchive(Op_filename, getTextBox());
+                    crearPestaña();
                 }
-                tabsControlPane.SelectedTab.Text = Op_filename;
-                openFile.Dispose();
+                currentFile = "";
+                reader = new CustomFileReader();
+                Op_filename = openFile.FileName;
+                currentFile = Op_filename;
+                if (nuevo)
+                {
+                    reader.ReadArchive(Op_filename, getTextBox(tab_name));
+                    pintar.pintarLetras(getTextBox(tab_name).Text, getTextBox(tab_name));
+                }
+                else { reader.ReadArchive(Op_filename, getTextBox(null));
+                    pintar.pintarLetras(getTextBox(null).Text, getTextBox(tab_name));
+                }
+                
             }
-            if (!button1.Enabled)
+            if (Op_filename != null)
             {
-                button1.Enabled = true;
+                foreach (TabPage tab in tabsControlPane.TabPages)
+                {
+                    if (tab.Name == tab_name)
+                    {
+                        tab.Text = Op_filename;
+                    }
+                }
+                if (!button1.Enabled)
+                {
+                    button1.Enabled = true;
+                }
             }
+            openFile.Dispose();
 
         }
 
-        public RichTextBox getTextBox()
+        private void AcercaDeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            RichTextBox txtBox = null;
-            if (tabsControlPane.TabCount!=0)
+            MessageBox.Show("Universidad de San Carlos de Guatemala \n" +
+                "Programador: Erick Omar Letona Figueroa \n" +
+                "Carnet: 201700377 \n" +
+                "Lenguajes formales y de programacion", "Información", MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+                );
+        
+        }
+        
+        private void TabsControlPane_KeyUp(object sender, KeyEventArgs e)
+        {
+          //  Pintar(getTextBox(null).Text);
+        }
+
+
+        
+
+        private void AbrirToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (tabsControlPane.TabCount == 0) {
+                abrirArchivo(true);
+            }
+            else
             {
-                foreach (Control control in tabsControlPane.SelectedTab.Controls)
+                if (getTextBox(null).Text == "")
                 {
-                    if (control.Name == "CodeTxt")
-                    {
-                        txtBox = new RichTextBox();
-                        txtBox = (RichTextBox)control;
-                    }
+                    abrirArchivo(false);
+                }
+                else {
+                    abrirArchivo(true);
                 }
             }
-            return txtBox;
+            
+
+        }
+
+        public RichTextBox getTextBox(String tab_name)
+        {
+            if (tab_name == null)
+            {
+                RichTextBox txtBox = null;
+                if (tabsControlPane.TabCount != 0)
+                {
+                    foreach (Control control in tabsControlPane.SelectedTab.Controls)
+                    {
+                        if (control.Name == "CodeTxt")
+                        {
+                            txtBox = new RichTextBox();
+                            txtBox = (RichTextBox)control;
+                        }
+                    }
+                }
+                return txtBox;
+            }
+            else {
+                RichTextBox txtBox = null;
+                if (tabsControlPane.TabCount != 0)
+                {
+                    foreach (TabPage tab in tabsControlPane.TabPages)
+                    {
+                        if (tab.Name == tab_name)
+                        {
+                            foreach (Control control in tab.Controls)
+                            {
+                                txtBox = new RichTextBox();
+                                txtBox = (RichTextBox)control;
+                            }
+                        }
+                    }
+                }
+                return txtBox;
+            }
+
+
+           
         }
     }
 }

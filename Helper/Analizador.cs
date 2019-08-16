@@ -20,21 +20,21 @@ namespace AnalizadorLexico.Helper
         private void addToken(TokenModel.TYPE tipo)
         {
             TokenModel token = new TokenModel(auxLex,tipo);
-            matrix.Add(new MatrixToken(matrix.Count, token));
+            matrix.Add(new MatrixToken(matrix.Count+1, token));
             auxLex = "";
 
         }
 
         private void addError(String lexema, int columna, int fila, String descripcion)
         {
-            errores.Add(new Error(errores.Count, lexema, columna, fila, descripcion));
+            errores.Add(new Error(errores.Count+1, lexema, columna, fila, descripcion));
             auxLex = "";
             sintaxisError = true;
         }
 
         public List<MatrixToken> analizar(String entrance)
         {
-            int columna = 1, fila = 1;
+            int columna = 0, fila = 1;
             matrix = new List<MatrixToken>();
             errores = new List<Error>();
             state = 0;
@@ -106,6 +106,8 @@ namespace AnalizadorLexico.Helper
                                     addError(auxLex,columna, fila, "PALABRA O CARACTER DESCONOCIDO");
                                     break;
                             }
+
+
                         }
                         else if (c.Equals('>'))
                         {
@@ -183,8 +185,17 @@ namespace AnalizadorLexico.Helper
                             addToken(TokenModel.TYPE.CADENA);
                             auxLex += c;
                             addToken(TokenModel.TYPE.COMILLAS);
+                            state = 3;
                         }
-                        else if (c.Equals('['))
+                        
+                        else
+                        {
+                            auxLex += c;
+                        }
+                        
+                        break;
+                    case 3:
+                        if (c.Equals('['))
                         {
                             state = 0;
                             auxLex += c;
@@ -200,17 +211,17 @@ namespace AnalizadorLexico.Helper
                         else
                         {
                             auxLex += c;
+                            if (!Char.IsWhiteSpace(c))
+                            {
+                                state = 0;
+                                addError(auxLex, columna, fila, "CARACTER DESCONOCIDO");
+                            }  
                         }
-                        
-                        break;
-                    default:
-
                         break;
                 }
 
 
             }
-            
             return matrix;
         }
 

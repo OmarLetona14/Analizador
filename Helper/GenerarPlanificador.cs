@@ -45,10 +45,6 @@ namespace AnalizadorLexico.Helper
                             while (!(tokens[y].getToken().getTipoToken().Equals("CORCHETE_DER")) &&
                                     x<tokens.Count)
                             {
-                                if (y==87)
-                                {
-                                    int i = 0;
-                                }
                                 if (tokens[y].getToken().getTipoToken().Equals("PALABRA_RESERVADA")
                                     && tokens[y].getToken().getValor().ToLower().Equals("año"))
                                 {

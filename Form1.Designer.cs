@@ -197,6 +197,7 @@
             this.acercaDeToolStripMenuItem1.Name = "acercaDeToolStripMenuItem1";
             this.acercaDeToolStripMenuItem1.Size = new System.Drawing.Size(234, 26);
             this.acercaDeToolStripMenuItem1.Text = "Acerca De";
+            this.acercaDeToolStripMenuItem1.Click += new System.EventHandler(this.AcercaDeToolStripMenuItem1_Click);
             // 
             // button1
             // 
@@ -217,6 +218,7 @@
             this.tabsControlPane.Size = new System.Drawing.Size(681, 407);
             this.tabsControlPane.TabIndex = 11;
             this.tabsControlPane.SelectedIndexChanged += new System.EventHandler(this.TabsControlPane_SelectedIndexChanged);
+            this.tabsControlPane.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TabsControlPane_KeyUp);
             // 
             // PlanificacionTree
             // 
