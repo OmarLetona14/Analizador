@@ -22,7 +22,7 @@ namespace AnalizadorLexico.Helper
             planificaciones = new List<Planificacion>();
             for (int x = 0; x < tokens.Count; x++)
             {
-                if (tokens[x].getToken().getValor().Equals("Planificador"))
+                if (tokens[x].getToken().getValor().ToLower().Equals("planificador"))
                 {
                     if (tokens[x+1].getToken().getValor().Equals(":"))
                     {

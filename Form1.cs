@@ -142,12 +142,7 @@ namespace AnalizadorLexico
                        "\\AnalizadorLexico\\Helper\\tokens.html";
                         file.generateHTMLTokensFile(tokens, htmlFile_route);
                         MessageBox.Show("El analisis lexico se completó pero existen errores sintacticos", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        if (MessageBoxButtons.OK == 0)
-                        {
-                            Process.Start(htmlFile_route);
-                            analisis.imprimirTokens();
-                            plans = generate.generar(tokens);
-                        }
+                        
                     }
                    
                     
